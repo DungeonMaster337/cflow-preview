@@ -257,7 +257,7 @@ function render(c){
         <p class="small">Обычно менеджер проверяет результат, задаёт недостающие вопросы и только затем отправляет клиенту.</p>
       </div>
     </section>
-    <section class="card">
+    <section class="card" id="resultCard">
       <div class="card-head"><h2>Результат обработки</h2><button class="secondary hidden" id="copyBtn">Скопировать ответ</button></div>
       <div id="empty" class="empty"><div style="font-size:34px;margin-bottom:10px">↗</div>Нажмите кнопку слева, чтобы увидеть карточку заявки, вопросы, предварительный маршрут и черновик ответа.</div>
       <div id="loading" class="empty hidden"><div class="loader"></div>${esc(c.loadingText||'Извлекаю данные из письма и файлов…')}</div>
@@ -291,12 +291,15 @@ function render(c){
 
   const analyze=document.getElementById('analyze'),empty=document.getElementById('empty'),
         loading=document.getElementById('loading'),result=document.getElementById('result'),
-        copyBtn=document.getElementById('copyBtn');
+        copyBtn=document.getElementById('copyBtn'),resultCard=document.getElementById('resultCard');
+  const toResult=()=>resultCard.scrollIntoView({behavior:'smooth',block:'start'});
   analyze.addEventListener('click',()=>{
     empty.classList.add('hidden');result.classList.add('hidden');copyBtn.classList.add('hidden');
     loading.classList.remove('hidden');analyze.disabled=true;analyze.textContent='Обработка…';
+    toResult(); // на телефоне сразу проматываем к «Результат», иначе кажется что кнопка не сработала
     setTimeout(()=>{loading.classList.add('hidden');result.classList.remove('hidden');
-      copyBtn.classList.remove('hidden');analyze.disabled=false;analyze.textContent='Разобрать повторно';},1100);
+      copyBtn.classList.remove('hidden');analyze.disabled=false;analyze.textContent='Разобрать повторно';
+      toResult();},1100);
   });
   copyBtn.addEventListener('click',async()=>{
     try{await navigator.clipboard.writeText(document.getElementById('draftText').innerText);
