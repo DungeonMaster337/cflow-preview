@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CertFlow AI — персональное демо</title>
+<style>
+:root{
+  --navy:#17324d;--blue:#2f6b9a;--teal:#1f7a73;--bg:#f4f7fa;
+  --card:#fff;--line:#dbe3ea;--muted:#64748b;--orange:#e88933;
+  --green:#18794e;--red:#b42318;--shadow:0 14px 40px rgba(23,50,77,.10)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:#17212b}
+header{background:linear-gradient(135deg,var(--navy),#244f72);color:white;padding:24px 32px}
+.header-inner{max-width:1240px;margin:auto;display:flex;justify-content:space-between;gap:24px;align-items:center}
+h1{margin:0;font-size:28px;letter-spacing:-.5px}
+.subtitle{margin-top:7px;color:#dbeafe;font-size:15px}
+.forco{margin-top:12px;display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);padding:8px 13px;border-radius:10px;font-size:13px}
+.forco b{font-weight:800}
+.badge{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);padding:9px 13px;border-radius:999px;font-size:13px;white-space:nowrap}
+main{max-width:1240px;margin:28px auto;padding:0 22px 50px}
+.notice{background:#fff2e5;border:1px solid #f2c89d;border-radius:12px;padding:13px 16px;margin-bottom:18px;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1.08fr;gap:20px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.card-head h2{font-size:18px;margin:0}
+.card-body{padding:20px}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+textarea,input,select{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:12px;font:inherit;background:white}
+textarea{min-height:210px;resize:vertical;line-height:1.5}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.filebox{margin-top:14px;padding:12px;border:1px dashed #94a3b8;border-radius:10px;background:#f8fafc}
+.chip{display:inline-block;background:#eaf3f8;color:#244f72;border-radius:999px;padding:7px 10px;margin:4px 6px 0 0;font-size:12px}
+button{border:0;border-radius:10px;padding:13px 16px;font-weight:800;cursor:pointer}
+.primary{width:100%;margin-top:17px;background:var(--teal);color:#fff;font-size:15px}
+.primary:hover{filter:brightness(.95)}
+.secondary{background:#eaf3f8;color:var(--navy);padding:8px 11px;font-size:12px}
+.small{font-size:12px;color:var(--muted)}
+.empty{padding:70px 28px;text-align:center;color:var(--muted)}
+.loader{width:34px;height:34px;border:4px solid #dbeafe;border-top-color:var(--blue);border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hidden{display:none!important}
+.section{border-bottom:1px solid var(--line);padding:17px 20px}
+.section:last-child{border-bottom:0}
+.section-title{font-weight:800;margin-bottom:11px;display:flex;align-items:center;gap:8px}
+.num{width:24px;height:24px;border-radius:7px;background:#e9f5f3;color:var(--teal);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13px}
+.kv div:nth-child(odd){color:var(--muted)}
+.status{display:inline-flex;align-items:center;gap:6px;background:#fff6dd;color:#7a4b00;border-radius:999px;padding:6px 9px;font-size:12px;font-weight:700}
+.dot{width:7px;height:7px;border-radius:50%;background:#e9a23b}
+.questions{margin:0;padding-left:20px;font-size:13px;line-height:1.5}
+.questions li{margin:7px 0}
+.route{background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13px;line-height:1.48}
+.route strong{color:var(--navy)}
+.price-table{width:100%;border-collapse:collapse;font-size:13px}
+.price-table td{padding:8px 4px;border-bottom:1px solid #edf2f7}
+.price-table td:last-child{text-align:right;font-weight:700}
+.total td{font-size:15px;border-bottom:0;padding-top:12px}
+.draft{background:#e9f5f3;border:1px solid #bcded8;border-radius:10px;padding:13px;font-size:13px;line-height:1.55;white-space:pre-line}
+.footer-note{padding:14px 20px;background:#f8fafc;color:var(--muted);font-size:12px}
+.configerr{max-width:1240px;margin:20px auto;padding:16px;background:#fdecea;border:1px solid #f0b4ab;border-radius:12px;color:#8a2318;font-size:14px}
+@media(max-width:850px){.grid{grid-template-columns:1fr}.header-inner{align-items:flex-start;flex-direction:column}.row{grid-template-columns:1fr}.kv{grid-template-columns:120px 1fr}}
+</style>
+</head>
+<body>
+<script>
+/* ============================================================================
+   ПЕРСОНАЛИЗАЦИЯ ДЕМО ПОД ЛИДА — редактируешь ТОЛЬКО этот блок.
+   1) Выбери сегмент:  const ACTIVE = PRESETS.certification | sout | licensing | supply
+   2) Впиши forCompany — название компании-лида (оно уходит в шапку и на видео).
+   3) По желанию — подставь их реальный пример заявки в поле request.
+   Всё остальное рисуется автоматически. Открывается двойным кликом, без сервера.
+   ========================================================================== */
+
+const PRESETS = {
+
+  // --- 1. СЕРТИФИКАЦИЯ ПРОДУКЦИИ ---------------------------------------------
+  certification: {
+    brand:'CertFlow AI',
+    tagline:'Квалификация заявки на сертификацию и подготовка черновика КП',
+    forCompany:'Мировые поставки',                 // ← ВПИШИ компанию-лида, напр. 'VIPTEST'
+    badge:'Эксперт подтверждает результат',
+    incomingNo:'00418',
+    request:'Добрый день. Мы ООО «Альфа Импорт», хотим впервые ввезти из Китая 500 электрических чайников EK-220 под своей маркой. 220 В, 1800 Вт. Продавать будем на Ozon и Wildberries. Производитель прислал инструкцию и тест-репорт на английском. Подскажите, какой документ нужен, сколько стоит и сколько времени займёт?',
+    responsibles:['Анна, отдел сертификации','Сергей, руководитель'],
+    attachments:['instruction_EK220.pdf','test_report_EN.pdf','photo_marking.jpg'],
+    statusLabel:'Нужны уточнения',
+    card:[
+      ['Компания','ООО «Альфа Импорт»'],['Товар','Электрический чайник'],
+      ['Модель','EK-220'],['Параметры','220 В · 1800 Вт'],
+      ['Количество','500 шт.'],['Производство','Китай'],
+      ['Продажи','Ozon, Wildberries'],['Файлы','Инструкция, test report, фото маркировки'],
+    ],
+    questions:[
+      'ИНН заявителя и его роль: импортёр, изготовитель или уполномоченное лицо?',
+      'Это разовая партия 500 штук или планируется серийный ввоз?',
+      'Полное название и адрес завода-изготовителя?',
+      'Будут ли другие модели с отличиями по мощности или конструкции?',
+      'Есть ли контракт, инвойс и товаросопроводительные документы?',
+      'Есть ли образцы в России и к какой дате нужен документ?',
+    ],
+    routeText:'<strong>Гипотеза для проверки экспертом:</strong> требования ТР ТС 004/2011 к низковольтному оборудованию и ТР ТС 020/2011 по электромагнитной совместимости. Форма подтверждения и схема не выбираются автоматически — эксперт подтверждает их после проверки модели, поставки и документов.',
+    priceRows:[['Работа эксперта','18 000 ₽'],['Испытания','42 000 ₽'],['Перевод / доработка','8 000 ₽']],
+    priceTotal:['Предварительно','68 000 ₽'],
+    draft:'Добрый день!\n\nПредварительно для электрического чайника потребуется проверка требований к низковольтному оборудованию и электромагнитной совместимости.\n\nЧтобы эксперт подтвердил форму документа, схему, срок и точную стоимость, нужны данные об изготовителе, формате поставки, моделях, контракте и образцах. Ниже направим шесть коротких вопросов.\n\nОриентировочный диапазон по текущим данным — 68 000 ₽. Итоговый расчёт подготовим после проверки экспертом.',
+  },
+
+  // --- 2. СОУТ И ОХРАНА ТРУДА ------------------------------------------------
+  sout: {
+    brand:'SOUT Flow AI',
+    tagline:'Квалификация заявки на СОУТ и обучение, черновик расчёта',
+    forCompany:'Мировые поставки',                 // ← напр. 'Экспертный центр СОУТ'
+    badge:'Эксперт подтверждает объём работ',
+    incomingNo:'00291',
+    request:'Здравствуйте. У нас производственная компания, 43 сотрудника, 3 площадки (цех, склад, офис). СОУТ последний раз делали больше 5 лет назад. Ещё нужно обучить руководителей по охране труда. Сколько рабочих мест, что по срокам и стоимости?',
+    responsibles:['Ольга, отдел СОУТ','Дмитрий, руководитель'],
+    attachments:['shtatka.xlsx','svidetelstvo_SOUT_2020.pdf'],
+    statusLabel:'Нужны уточнения',
+    card:[
+      ['Компания','Производственная компания'],['Сотрудников','43'],
+      ['Площадки','3 (цех, склад, офис)'],['Услуга','СОУТ + обучение по ОТ'],
+      ['Периодичность','Просрочено (>5 лет)'],['Файлы','Штатное расписание, старое свидетельство'],
+    ],
+    questions:[
+      'Пришлите штатное расписание с должностями и числом одинаковых рабочих мест.',
+      'Есть ли вредные/опасные факторы (шум, вибрация, химия, пыль)?',
+      'Даты последней СОУТ по каждому рабочему месту?',
+      'Кого обучать по охране труда и по каким программам (руководители, специалисты, рабочие)?',
+      'Форма обучения: очно или дистанционно?',
+      'К какой дате нужны результаты и документы?',
+    ],
+    routeText:'<strong>Гипотеза для проверки экспертом:</strong> СОУТ по 426-ФЗ для рабочих мест + обучение по охране труда (Постановление 2464). Точное число рабочих мест, перечень факторов и программы обучения подтверждает эксперт после штатного расписания.',
+    priceRows:[['Идентификация рабочих мест','по факту, ~43 места'],['Измерения факторов','от 900 ₽/место'],['Обучение по ОТ','1 200 ₽/слушатель']],
+    priceTotal:['Ориентир по вводным','от 58 000 ₽'],
+    draft:'Здравствуйте!\n\nПредварительно потребуется СОУТ по рабочим местам и обучение руководителей по охране труда.\n\nЧтобы эксперт подтвердил точное число рабочих мест, перечень измеряемых факторов, программы обучения и итоговую стоимость, нужны штатное расписание, данные о вредных факторах и даты прошлой СОУТ. Ниже — шесть коротких вопросов.\n\nОриентир по текущим вводным — от 58 000 ₽. Финальный расчёт подготовим после проверки экспертом.',
+  },
+
+  // --- 3. ЛИЦЕНЗИРОВАНИЕ И ПРОМБЕЗОПАСНОСТЬ -----------------------------------
+  licensing: {
+    brand:'LicenseFlow AI',
+    tagline:'Карта готовности к лицензии и черновик КП',
+    forCompany:'Мировые поставки',                 // ← напр. 'Бона Фиде'
+    badge:'Эксперт подтверждает требования',
+    incomingNo:'00157',
+    request:'Добрый день. Планируем заниматься монтажом и обслуживанием пожарной сигнализации. Нужна лицензия МЧС. Что требуется по персоналу, оборудованию и помещению? Сколько времени и денег?',
+    responsibles:['Игорь, отдел лицензирования','Наталья, руководитель'],
+    attachments:['ustav.pdf','shtat_2_cheloveka.pdf'],
+    statusLabel:'Оценка готовности',
+    card:[
+      ['Компания','Новый заявитель'],['Вид деятельности','Монтаж и ТО пожарной сигнализации'],
+      ['Лицензия','МЧС (противопожарные работы)'],['Персонал','Требует проверки'],
+      ['Помещение','Требует проверки'],['Оборудование','Требует проверки'],
+    ],
+    questions:[
+      'Есть ли специалисты с профильным образованием по пожарной безопасности и стажем?',
+      'Сотрудники в штате или по договору ГПХ?',
+      'Есть ли поверенное оборудование (приложите перечень)?',
+      'Помещение в собственности или аренде, есть ли договор?',
+      'Были ли ранее отказы в выдаче лицензии?',
+      'К какой дате планируете получить лицензию?',
+    ],
+    routeText:'<strong>Карта готовности к лицензии МЧС (гипотеза для эксперта):</strong> проверка по блокам — персонал и квалификация, помещение, поверенное оборудование, договоры и документы. Итоговый перечень требований и список пробелов подтверждает эксперт.',
+    priceRows:[['Аудит готовности','15 000 ₽'],['Подготовка пакета документов','45 000 ₽'],['Сопровождение подачи','25 000 ₽']],
+    priceTotal:['Предварительно','85 000 ₽'],
+    draft:'Здравствуйте!\n\nДля монтажа и обслуживания пожарной сигнализации потребуется лицензия МЧС. Ключевые блоки готовности — квалифицированный персонал, поверенное оборудование, помещение и комплект документов.\n\nЧтобы эксперт подтвердил точный перечень требований и составил карту пробелов, нужны данные о специалистах, оборудовании и помещении. Ниже — шесть коротких вопросов.\n\nОриентир по текущим вводным — 85 000 ₽. Финальный расчёт и план подготовим после проверки экспертом.',
+  },
+
+  // --- 4. ПРОМЫШЛЕННЫЕ ПОСТАВЩИКИ (спецификация → ТКП) ------------------------
+  supply: {
+    brand:'SpecFlow AI',
+    tagline:'Разбор спецификации, подбор аналогов и черновик ТКП',
+    forCompany:'Мировые поставки',                 // ← напр. 'Мировые поставки'
+    badge:'Инженер подтверждает подбор',
+    incomingNo:'00733',
+    request:'Здравствуйте. Прикладываю спецификацию (Excel, 30 позиций) на промышленные комплектующие — гидравлика и пневматика, часть импортные. Нужны цены, аналоги по снятым с производства позициям и сроки поставки. Что можете предложить?',
+    responsibles:['Виктор, отдел продаж','Инженер-подборщик'],
+    attachments:['specification_30pos.xlsx','photo_shildik.jpg'],
+    statusLabel:'Нужны уточнения',
+    card:[
+      ['Компания','Действующий клиент'],['Тип запроса','Спецификация, 30 позиций'],
+      ['Категории','Гидравлика, пневматика'],['Импорт','Да (часть позиций)'],
+      ['Аналоги','Требуются по снятым с производства'],['Файлы','Спецификация Excel, фото шильдика'],
+    ],
+    questions:[
+      'По каждой позиции — бренд и артикул (если есть)?',
+      'Допустимы ли аналоги или строго оригинал?',
+      'Требуемое количество по каждой позиции?',
+      'Срочность и желаемая дата поставки?',
+      'Объект/применение — для подбора совместимых аналогов?',
+      'Условия поставки: город, самовывоз или доставка, нужна ли растаможка?',
+    ],
+    routeText:'<strong>Маршрут обработки (гипотеза для инженера):</strong> нормализация спецификации → сопоставление с каталогом → подбор аналогов по снятым позициям → запрос ценам поставщикам (RFQ) → черновик ТКП. Финальный подбор и цены подтверждает инженер/менеджер.',
+    priceRows:[['Обработано позиций','30 из 30'],['Найдено в каталоге','22 позиции'],['Требуют подбора аналога','8 позиций']],
+    priceTotal:['Черновик ТКП','готов к проверке'],
+    draft:'Здравствуйте!\n\nСпецификацию на 30 позиций разобрали: 22 позиции есть в каталоге, по 8 снятым с производства подберём аналоги.\n\nЧтобы инженер подтвердил подбор, цены и сроки, уточните допустимость аналогов, требуемое количество и условия поставки. Ниже — шесть коротких вопросов.\n\nЧерновик ТКП подготовим сразу после ответов. Ориентировочные цены и сроки — по прайсам поставщиков.',
+  },
+
+};
+
+// >>> ВЫБОР СЕГМЕНТА ДЛЯ ЭТОГО ДЕМО <<<
+const ACTIVE = PRESETS.supply;
+</script>
+
+<div id="app"></div>
+
+<script>
+/* --- рендер из ACTIVE. Не редактируется при перекраске под лида. --- */
+const REQUIRED = ['brand','tagline','request','card','questions','routeText','priceRows','priceTotal','draft'];
+
+function fail(msg){
+  document.body.innerHTML =
+    '<div class="configerr"><b>Ошибка конфигурации демо:</b> '+msg+
+    '<br>Проверь блок PRESETS / ACTIVE вверху файла.</div>';
+  throw new Error(msg);
+}
+function validate(c){
+  if(!c) fail('ACTIVE не задан.');
+  const miss = REQUIRED.filter(k => c[k]===undefined || c[k]===null);
+  if(miss.length) fail('в пресете нет полей: '+miss.join(', ')+'.');
+  if(!Array.isArray(c.card)||!c.card.every(r=>Array.isArray(r)&&r.length===2)) fail('card — массив пар [название, значение].');
+  if(!Array.isArray(c.priceRows)) fail('priceRows — массив пар.');
+}
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function render(c){
+  validate(c);
+  const forco = c.forCompany
+    ? '<div class="forco">Персональный макет для: <b>'+esc(c.forCompany)+'</b></div>'
+    : '<div class="forco small" style="opacity:.75">⚠ Впиши forCompany в пресете — имя лида должно быть на первом экране</div>';
+  const kv = c.card.map(([k,v])=>'<div>'+esc(k)+'</div><div><strong>'+esc(v)+'</strong></div>').join('');
+  const qs = c.questions.map(q=>'<li>'+esc(q)+'</li>').join('');
+  const rows = c.priceRows.map(([k,v])=>'<tr><td>'+esc(k)+'</td><td>'+esc(v)+'</td></tr>').join('');
+  const resp = (c.responsibles||['Менеджер']).map(r=>'<option>'+esc(r)+'</option>').join('');
+  const files = (c.attachments||[]).map(f=>'<span class="chip">'+esc(f)+'</span>').join('');
+
+  document.getElementById('app').innerHTML = `
+<header><div class="header-inner">
+  <div><h1>${esc(c.brand)}</h1><div class="subtitle">${esc(c.tagline)}</div>${forco}</div>
+  <div class="badge">${esc(c.badge||'Эксперт подтверждает результат')}</div>
+</div></header>
+<main>
+  <div class="notice"><strong>Интерактивный макет:</strong> экран и результат показывают будущий сценарий продукта. В этой версии логика смоделирована на одном примере и не подключена к реальной нейросети или базе цен.</div>
+  <div class="grid">
+    <section class="card">
+      <div class="card-head"><h2>Новая заявка</h2><span class="small">Входящие № ${esc(c.incomingNo||'00001')}</span></div>
+      <div class="card-body">
+        <label>Текст письма или сообщения клиента</label>
+        <textarea>${esc(c.request)}</textarea>
+        <div class="row">
+          <div><label>Источник</label><select><option>Email</option><option>Форма сайта</option><option>Telegram</option><option>WhatsApp</option></select></div>
+          <div><label>Ответственный</label><select>${resp}</select></div>
+        </div>
+        ${files?`<div class="filebox"><strong style="font-size:13px">Вложения</strong><br>${files}</div>`:''}
+        <button class="primary" id="analyze">Разобрать заявку и подготовить результат</button>
+        <p class="small">Обычно менеджер проверяет результат, задаёт недостающие вопросы и только затем отправляет клиенту.</p>
+      </div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Результат обработки</h2><button class="secondary hidden" id="copyBtn">Скопировать ответ</button></div>
+      <div id="empty" class="empty"><div style="font-size:34px;margin-bottom:10px">↗</div>Нажмите кнопку слева, чтобы увидеть карточку заявки, вопросы, предварительный маршрут и черновик ответа.</div>
+      <div id="loading" class="empty hidden"><div class="loader"></div>${esc(c.loadingText||'Извлекаю данные из письма и файлов…')}</div>
+      <div id="result" class="hidden">
+        <div class="section">
+          <div class="section-title"><span class="num">1</span> Карточка заявки <span class="status"><span class="dot"></span> ${esc(c.statusLabel||'Нужны уточнения')}</span></div>
+          <div class="kv">${kv}</div>
+        </div>
+        <div class="section">
+          <div class="section-title"><span class="num">2</span> Недостающие вопросы</div>
+          <ol class="questions">${qs}</ol>
+        </div>
+        <div class="section">
+          <div class="section-title"><span class="num">3</span> Предварительный маршрут</div>
+          <div class="route">${c.routeText}</div>
+        </div>
+        <div class="section">
+          <div class="section-title"><span class="num">4</span> Ориентировочный расчёт</div>
+          <table class="price-table">${rows}<tr class="total"><td><strong>${esc(c.priceTotal[0])}</strong></td><td><strong>${esc(c.priceTotal[1])}</strong></td></tr></table>
+          <div class="small">Демонстрационные числа. Финальная цена только из прайса компании после подтверждения экспертом.</div>
+        </div>
+        <div class="section">
+          <div class="section-title"><span class="num">5</span> Черновик ответа клиенту</div>
+          <div class="draft" id="draftText">${esc(c.draft)}</div>
+        </div>
+        <div class="footer-note">Следующий шаг в рабочей версии: «Отправить вопросы», «Подтвердить маршрут», «Создать КП PDF», «Передать в CRM».</div>
+      </div>
+    </section>
+  </div>
+</main>`;
+
+  const analyze=document.getElementById('analyze'),empty=document.getElementById('empty'),
+        loading=document.getElementById('loading'),result=document.getElementById('result'),
+        copyBtn=document.getElementById('copyBtn');
+  analyze.addEventListener('click',()=>{
+    empty.classList.add('hidden');result.classList.add('hidden');copyBtn.classList.add('hidden');
+    loading.classList.remove('hidden');analyze.disabled=true;analyze.textContent='Обработка…';
+    setTimeout(()=>{loading.classList.add('hidden');result.classList.remove('hidden');
+      copyBtn.classList.remove('hidden');analyze.disabled=false;analyze.textContent='Разобрать повторно';},1100);
+  });
+  copyBtn.addEventListener('click',async()=>{
+    try{await navigator.clipboard.writeText(document.getElementById('draftText').innerText);
+      copyBtn.textContent='Скопировано';setTimeout(()=>copyBtn.textContent='Скопировать ответ',1200);}catch(e){}
+  });
+}
+render(ACTIVE);
+
+/* самопроверка: сломанный пресет должен ловиться до показа. Открой ?selftest=1 */
+if(location.search.includes('selftest')){
+  const t=(name,fn)=>{try{fn();console.error('FAIL '+name+': не бросило');}catch(e){console.log('OK '+name);}};
+  t('нет обязательного поля',()=>validate({brand:'x'}));
+  t('битый card',()=>validate({...ACTIVE,card:[['одно']]}));
+  console.log('selftest done — валидный ACTIVE рисуется выше');
+}
+</script>
+</body>
+</html>
